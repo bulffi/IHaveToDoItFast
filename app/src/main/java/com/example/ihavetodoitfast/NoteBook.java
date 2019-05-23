@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -92,8 +93,14 @@ public class NoteBook {
         values.put(NoteSchema.NoteTable.Cols.TITLE, note.getTitle());
         values.put(NoteSchema.NoteTable.Cols.DATE, note.getDate().getTime());
         values.put(NoteSchema.NoteTable.Cols.SOLVED, note.isSolved()?1:0);
+        values.put(NoteSchema.NoteTable.Cols.RELATED_PERSON,note.getRelatedPerson());
 
         return values;
+    }
+
+    public File getPhotoFile(Note note){
+        File filesDir = mContext.getFilesDir();
+        return new File(filesDir,note.getPhotoFileName());
     }
 
 }

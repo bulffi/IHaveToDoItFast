@@ -36,9 +36,9 @@ public class NoteListFragment extends Fragment {
         inflater.inflate(R.menu.fragment_crime_list,menu);
         MenuItem subtitleItem = menu.findItem(R.id.show_subtitle);
         if(mSubtitleVisible){
-            subtitleItem.setTitle(R.string.hide_subtitle);
+            subtitleItem.setTitle(R.string.hide_total);
         } else {
-            subtitleItem.setTitle(R.string.show_subtitle);
+            subtitleItem.setTitle(R.string.show_total);
         }
 
     }

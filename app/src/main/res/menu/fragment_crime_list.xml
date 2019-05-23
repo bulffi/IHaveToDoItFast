@@ -4,13 +4,13 @@
     <item
         android:id="@+id/new_crime"
         android:icon="@drawable/ic_menu_add"
-        android:title="@string/new_crime"
+        android:title="@string/new_note"
         app:showAsAction="ifRoom|withText">
 
     </item>
     <item
         android:id="@+id/show_subtitle"
-        android:title="@string/show_subtitle"
+        android:title="@string/show_total"
         app:showAsAction="ifRoom">
 
     </item>

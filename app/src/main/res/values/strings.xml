@@ -1,12 +1,23 @@
 <resources>
     <string name="app_name">IHaveToDoItFast</string>
-    <string name="crime_title_hint">Enter a title for the note</string>
-    <string name="crime_title_label">Title</string>
-    <string name="crime_details_label">Details</string>
-    <string name="crime_solved_label">Solved</string>
-    <string name="date_picker_title">Date of note</string>
-    <string name="new_crime">New Crime</string>
-    <string name="show_subtitle">Show Subtitle</string>
-    <string name="hide_subtitle">Hide Subtitle</string>
+    <string name="note_title_hint">请输入标题</string>
+    <string name="note_title_label">标题</string>
+    <string name="note_details_label">细节</string>
+    <string name="note_solved_label">已完成</string>
+    <string name="date_picker_title">日期</string>
+    <string name="new_note">增加note</string>
+    <string name="show_total">显示总数</string>
+    <string name="hide_total">隐藏总数</string>
     <string name="subtitle_format">%1$d notes</string>
+    <string name="note_relation_text">选择相关联系人</string>
+    <string name="note_report_text">发送note以共享</string>
+    <string name="note_report">%1$s!
+        这个note产生在 %2$s. %3$s, 以及 %4$s
+    </string>
+    <string name="note_report_solved">完成啦！</string>
+    <string name="note_report_unsolved">还没完成</string>
+    <string name="note_no_related_person">没有相关联的人</string>
+    <string name="note_related_person">相关的人是 %s.</string>
+    <string name="note_subject">IHaveToDoItFast note</string>
+    <string name="send_note">通过这个方式发送</string>
 </resources>

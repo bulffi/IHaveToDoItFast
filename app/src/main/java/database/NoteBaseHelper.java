@@ -19,7 +19,8 @@ public class NoteBaseHelper extends SQLiteOpenHelper {
                 NoteTable.Cols.UUID+","+
                 NoteTable.Cols.TITLE+","+
                 NoteTable.Cols.DATE +","+
-                NoteTable.Cols.SOLVED+
+                NoteTable.Cols.SOLVED+","+
+                NoteTable.Cols.RELATED_PERSON +
                 ")");
 
     }
