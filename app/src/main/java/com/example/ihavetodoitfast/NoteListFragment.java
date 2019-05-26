@@ -17,11 +17,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class NoteListFragment extends Fragment {
     private RecyclerView mCrimeRecyclerView;
-    private CrimeAdapter mCrimeAdapter;
+    private NoteAdapter mCrimeAdapter;
     private boolean mSubtitleVisible;
 
     @Override
@@ -33,7 +34,7 @@ public class NoteListFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.fragment_crime_list,menu);
+        inflater.inflate(R.menu.fragment_note_list,menu);
         MenuItem subtitleItem = menu.findItem(R.id.show_subtitle);
         if(mSubtitleVisible){
             subtitleItem.setTitle(R.string.hide_total);
@@ -102,7 +103,7 @@ public class NoteListFragment extends Fragment {
         NoteBook noteBook = NoteBook.get(getActivity());
         List<Note> notes = noteBook.getNotes();
         if (mCrimeAdapter == null){
-            mCrimeAdapter = new CrimeAdapter(notes);
+            mCrimeAdapter = new NoteAdapter(notes);
             mCrimeRecyclerView.setAdapter(mCrimeAdapter);
         }
         else {
@@ -113,13 +114,13 @@ public class NoteListFragment extends Fragment {
 
     }
 
-    public class CrimeHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class NoteHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private TextView mTitleTextView;
         private TextView mDateTextView;
         private Note mNote;
         private ImageView mSolvedImageView;
 
-        public CrimeHolder(LayoutInflater inflater,ViewGroup parent){
+        public NoteHolder(LayoutInflater inflater, ViewGroup parent){
             super(inflater.inflate(R.layout.list_item_note,parent,false));
             itemView.setOnClickListener(this);
             mTitleTextView = (TextView) itemView.findViewById(R.id.note_title);
@@ -131,7 +132,8 @@ public class NoteListFragment extends Fragment {
         public void bind(Note note){
             mNote = note;
             mTitleTextView.setText(mNote.getTitle());
-            mDateTextView.setText(mNote.getDate().toString());
+            SimpleDateFormat dateFormat =   new SimpleDateFormat( " yyyy - MM - dd " );
+            mDateTextView.setText(dateFormat.format(mNote.getDate()));
             mSolvedImageView.setVisibility(note.isSolved()? View.VISIBLE:View.GONE);
         }
 
@@ -142,22 +144,22 @@ public class NoteListFragment extends Fragment {
         }
     }
 
-    public class CrimeAdapter extends RecyclerView.Adapter<CrimeHolder>{
+    public class NoteAdapter extends RecyclerView.Adapter<NoteHolder>{
         private List<Note> mNotes;
 
-        public CrimeAdapter(List<Note> notes){
+        public NoteAdapter(List<Note> notes){
             mNotes = notes;
         }
 
         @NonNull
         @Override
-        public CrimeHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        public NoteHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-            return  new CrimeHolder(layoutInflater,viewGroup);
+            return  new NoteHolder(layoutInflater,viewGroup);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull CrimeHolder crimeHolder, int i) {
+        public void onBindViewHolder(@NonNull NoteHolder crimeHolder, int i) {
             Note note = mNotes.get(i);
             crimeHolder.bind(note);
         }

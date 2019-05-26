@@ -9,6 +9,7 @@
         android:orientation="horizontal"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
@@ -23,7 +24,9 @@
                 android:id="@+id/note_photo"
                 android:layout_height="80dp" />
             <ImageButton
-                android:layout_width="match_parent"
+                android:layout_width="80dp"
+                android:layout_marginTop="8dp"
+                android:layout_weight="1"
                 android:src="@android:drawable/ic_menu_camera"
                 android:id="@+id/note_camera"
                 android:layout_height="wrap_content" />
@@ -31,6 +34,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="1"
+            android:layout_marginLeft="8dp"
             android:orientation="vertical"
             android:layout_height="wrap_content">
             <TextView
@@ -44,6 +48,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/note_title_hint"/>
+            <CheckBox
+            android:id="@+id/note_solved"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/note_solved_label"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -51,30 +60,64 @@
     <TextView
         style="?android:listSeparatorTextViewStyle"
         android:layout_width="match_parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
         android:layout_height="wrap_content"
         android:text="@string/note_details_label"/>
 
     <Button
         android:id="@+id/note_date"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
-    <CheckBox
-        android:id="@+id/note_solved"
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:hint="请输入详细信息，或选择语音输入"
+        android:id="@+id/note_detail"
+        android:layout_height="wrap_content" />
+    <Button
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/note_solved_label"/>
-    <Button
-        android:layout_width="match_parent"
-        android:id="@+id/note_related_person"
-        android:text="@string/note_relation_text"
-        android:layout_height="wrap_content" />
-    <Button
-        android:layout_width="match_parent"
-        android:id="@+id/note_report"
-        android:text="@string/note_report_text"
-        android:layout_height="wrap_content" />
+        android:id="@+id/vocal_input"
+        android:text="@string/vocal_input"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <Button
+            android:layout_width="match_parent"
+            android:id="@+id/note_related_person"
+            android:text="@string/note_relation_text"
+            android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <Button
+                android:layout_width="match_parent"
+                android:id="@+id/note_report"
+                android:text="@string/note_report_text"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+</LinearLayout>
 
 
 </LinearLayout>

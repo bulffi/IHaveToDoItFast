@@ -20,7 +20,8 @@ public class NoteBaseHelper extends SQLiteOpenHelper {
                 NoteTable.Cols.TITLE+","+
                 NoteTable.Cols.DATE +","+
                 NoteTable.Cols.SOLVED+","+
-                NoteTable.Cols.RELATED_PERSON +
+                NoteTable.Cols.RELATED_PERSON +","+
+                NoteTable.Cols.DETAIL+
                 ")");
 
     }

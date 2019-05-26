@@ -24,12 +24,14 @@ public class NoteCursorWrapper extends CursorWrapper {
         long date = getLong(getColumnIndex(NoteSchema.NoteTable.Cols.DATE));
         int isSolved = getInt(getColumnIndex(NoteSchema.NoteTable.Cols.SOLVED));
         String relatedPerson  = getString(getColumnIndex(NoteSchema.NoteTable.Cols.RELATED_PERSON));
+        String detail = getString(getColumnIndex(NoteSchema.NoteTable.Cols.DETAIL));
 
         Note note = new Note(UUID.fromString(uuidString));
         note.setTitle(title);
         note.setDate(new Date(date));
         note.setSolved(isSolved!=0);
         note.setRelatedPerson(relatedPerson);
+        note.setDetail(detail);
 
         return note;
     }

@@ -9,6 +9,7 @@ public class Note {
     private Date mDate;
     private boolean mSolved;
     private String mRelatedPerson;
+    private String mDetail;
 
     public Note(){
         this(UUID.randomUUID());
@@ -57,6 +58,14 @@ public class Note {
 
     public String getPhotoFileName(){
         return "IMG_"+getID().toString()+".jpg";
+    }
+
+    public void setDetail(String detail){
+        mDetail = detail;
+    }
+
+    public String getDetail(){
+        return mDetail;
     }
 
 }

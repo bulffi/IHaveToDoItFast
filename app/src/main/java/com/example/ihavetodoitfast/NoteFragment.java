@@ -6,10 +6,8 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -21,6 +19,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -29,9 +30,9 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -45,6 +46,7 @@ public class NoteFragment extends Fragment {
     private static final int REQUEST_DATE = 0;
     private static final int REQUEST_CONTACT = 1;
     private static final int REQUEST_PHOTO = 2;
+    private static final int REQUEST_DETAIL = 3;
     private Button mReportButton;
     private Button mRelatedPersonButton;
     private ImageButton mPhotoButton;
@@ -53,13 +55,32 @@ public class NoteFragment extends Fragment {
 
     private Note mNote;
     private EditText mTitleField;
-    private Button mDateButtom;
+    private Button mDateButton;
     private CheckBox mSolvedCheckBox;
+    private EditText mDetailField;
+    private Button mVocalButton;
 
     @Override
     public void onResume() {
         super.onResume();
 
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_note,menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.delete_crime:
+                NoteBook.get(getActivity()).deleteNote(mNote);
+                getActivity().finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private String getNoteReport(){
@@ -117,10 +138,19 @@ public class NoteFragment extends Fragment {
             getActivity().revokeUriPermission(uri,Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             updatePhotoView();
         }
+        //TODO add receiver here!
+        /*
+        else if(requestCode==REQUEST_DETAIL){
+            String detail = (String)data.getStringExtra({你们的那个类的名字}.{你们约定的静态标志});
+            mNote.setDetail(detail);
+            mDetailField.setText(detail);
+        }
+         */
     }
 
     private void updateDate() {
-        mDateButtom.setText(mNote.getDate().toString());
+        SimpleDateFormat dateFormat =   new SimpleDateFormat( " yyyy - MM - dd " );
+        mDateButton.setText(dateFormat.format(mNote.getDate()));
     }
 
     @Override
@@ -141,6 +171,7 @@ public class NoteFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         UUID noteID = (UUID)getArguments().getSerializable(ARG_Note_ID);
         mNote = NoteBook.get(getActivity()).getNote(noteID);
         mPhotoFile = NoteBook.get(getActivity()).getPhotoFile(mNote);
@@ -177,9 +208,43 @@ public class NoteFragment extends Fragment {
             }
         });
 
-        mDateButtom = (Button)v.findViewById(R.id.note_date);
+        mDetailField = (EditText)v.findViewById(R.id.note_detail);
+        mDetailField.setText(mNote.getDetail());
+        mDetailField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mNote.setDetail(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        mVocalButton = (Button)v.findViewById(R.id.vocal_input);
+        mVocalButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*
+                Intent intent = new Intent(getActivity(),{你们那个activity的名字}.class);
+                startActivityForResult(intent,REQUEST_DETAIL);
+
+                 */
+                //TODO speech recognition activity here
+
+            }
+        });
+
+
+        mDateButton = (Button)v.findViewById(R.id.note_date);
         updateDate();
-        mDateButtom.setOnClickListener(new View.OnClickListener(){
+        mDateButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 FragmentManager fragmentManager = getFragmentManager();

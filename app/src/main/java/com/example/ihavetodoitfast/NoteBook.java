@@ -34,7 +34,7 @@ public class NoteBook {
 
     public List<Note> getNotes(){
         List<Note> notes = new ArrayList<>();
-        NoteCursorWrapper cursorWrapper = queryCeimes(null,null);
+        NoteCursorWrapper cursorWrapper = queryNotes(null,null);
         try{
             cursorWrapper.moveToFirst();
             while (!cursorWrapper.isAfterLast()){
@@ -47,7 +47,7 @@ public class NoteBook {
         return notes;
     }
     public Note getNote(UUID id){
-        NoteCursorWrapper cursorWrapper = queryCeimes(
+        NoteCursorWrapper cursorWrapper = queryNotes(
                 NoteSchema.NoteTable.Cols.UUID + " = ?",
                 new String[]{id.toString()}
         );
@@ -62,7 +62,7 @@ public class NoteBook {
         }
     }
 
-    private NoteCursorWrapper queryCeimes(String whereClause, String[] whereAgrs){
+    private NoteCursorWrapper queryNotes(String whereClause, String[] whereAgrs){
         Cursor cursor = mDatabase.query(
                 NoteSchema.NoteTable.NAME,
                 null,
@@ -87,6 +87,11 @@ public class NoteBook {
                 new String[]{uuidString});
     }
 
+    public void deleteNote(Note note){
+        mDatabase.delete(NoteSchema.NoteTable.NAME,NoteSchema.NoteTable.Cols.UUID + " = ?",
+                new String[]{note.getID().toString()});
+    }
+
     private static ContentValues getContentValues(Note note){
         ContentValues values = new ContentValues();
         values.put(NoteSchema.NoteTable.Cols.UUID, note.getID().toString());
@@ -94,6 +99,7 @@ public class NoteBook {
         values.put(NoteSchema.NoteTable.Cols.DATE, note.getDate().getTime());
         values.put(NoteSchema.NoteTable.Cols.SOLVED, note.isSolved()?1:0);
         values.put(NoteSchema.NoteTable.Cols.RELATED_PERSON,note.getRelatedPerson());
+        values.put(NoteSchema.NoteTable.Cols.DETAIL,note.getDetail());
 
         return values;
     }
