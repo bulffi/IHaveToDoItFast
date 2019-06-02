@@ -30,6 +30,15 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.iflytek.cloud.RecognizerResult;
+import com.iflytek.cloud.SpeechConstant;
+import com.iflytek.cloud.SpeechError;
+import com.iflytek.cloud.SpeechUtility;
+import com.iflytek.cloud.ui.RecognizerDialog;
+import com.iflytek.cloud.ui.RecognizerDialogListener;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -37,7 +46,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import static android.widget.CompoundButton.*;
+import static android.widget.CompoundButton.OnCheckedChangeListener;
+import static android.widget.CompoundButton.OnClickListener;
+
 
 public class NoteFragment extends Fragment {
 
@@ -138,14 +149,6 @@ public class NoteFragment extends Fragment {
             getActivity().revokeUriPermission(uri,Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             updatePhotoView();
         }
-        //TODO add receiver here!
-        /*
-        else if(requestCode==REQUEST_DETAIL){
-            String detail = (String)data.getStringExtra({你们的那个类的名字}.{你们约定的静态标志});
-            mNote.setDetail(detail);
-            mDetailField.setText(detail);
-        }
-         */
     }
 
     private void updateDate() {
@@ -175,6 +178,9 @@ public class NoteFragment extends Fragment {
         UUID noteID = (UUID)getArguments().getSerializable(ARG_Note_ID);
         mNote = NoteBook.get(getActivity()).getNote(noteID);
         mPhotoFile = NoteBook.get(getActivity()).getPhotoFile(mNote);
+
+        // initiate
+        SpeechUtility.createUtility(this.getActivity(), SpeechConstant.APPID + "=5cf2b0f1");
     }
     private void updatePhotoView(){
         if(mPhotoFile==null||!mPhotoFile.exists()){
@@ -231,16 +237,38 @@ public class NoteFragment extends Fragment {
         mVocalButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*
-                Intent intent = new Intent(getActivity(),{你们那个activity的名字}.class);
-                startActivityForResult(intent,REQUEST_DETAIL);
+                RecognizerDialog dialog = new RecognizerDialog(v.getContext(),null);
+                // set language
+                dialog.setParameter(SpeechConstant.LANGUAGE, "zh_cn");
+                dialog.setParameter(SpeechConstant.ACCENT, "mandarin");
+                // receive pure text
+                dialog.setParameter(SpeechConstant.RESULT_TYPE, "plain");
+                // filter out punctuation
+                dialog.setParameter(SpeechConstant.ASR_PTT,"0");
+                // set interval
+                dialog.setParameter(SpeechConstant.VAD_BOS, "4000");
+                dialog.setParameter(SpeechConstant.VAD_EOS, "1000");
 
-                 */
-                //TODO speech recognition activity here
+                dialog.setListener(new RecognizerDialogListener() {
+                    @Override
+                    public void onResult(RecognizerResult recognizerResult, boolean b) {
+                        String text=recognizerResult.getResultString();
 
+                        mNote.setDetail(text);
+                        mDetailField.setText(mDetailField.getText()+text);
+                    }
+                    @Override
+                    public void onError(SpeechError speechError) {
+                    }
+                });
+                dialog.show();
+                // remove the fucking stupid link
+                TextView txt = (TextView)dialog.getWindow().getDecorView().findViewWithTag("textlink");
+                txt.setText("");
+                // prompt
+                Toast.makeText(v.getContext(), "请开始说话", Toast.LENGTH_SHORT).show();
             }
         });
-
 
         mDateButton = (Button)v.findViewById(R.id.note_date);
         updateDate();
