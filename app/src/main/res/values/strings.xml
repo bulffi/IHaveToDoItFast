@@ -22,4 +22,5 @@
     <string name="send_note">通过这个方式发送</string>
     <string name="delete_note">删除note</string>
     <string name="vocal_input">语音输入</string>
+    <string name="options">\n1.备忘录\n2.看天气\n3.打电话</string>
 </resources>
